@@ -169,6 +169,18 @@
   align-items: start;
 }
 
+.db8-signal-pane[data-tui-signal="on"] {
+  border-color: color-mix(in oklch, var(--accent) 68%, var(--border));
+  box-shadow:
+    inset 0 0 0 1px color-mix(in oklch, var(--accent) 22%, transparent),
+    inset 0 0 18px color-mix(in oklch, var(--accent) 10%, transparent);
+}
+
+.db8-signal-pane[data-tui-signal="off"] {
+  border-color: color-mix(in oklch, var(--border) 92%, var(--muted));
+  box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--border) 22%, transparent);
+}
+
 .db8-field-group {
   display: flex;
   flex-direction: column;

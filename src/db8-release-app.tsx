@@ -37,6 +37,7 @@ import {
 } from "./lib/connection";
 
 type ThemeMode = "light" | "dark" | "color";
+type TuiSignalMode = "off" | "on";
 type SectionId = "agent_console" | "group_view" | "supervision" | "connections";
 type EntryMode = "create" | "join" | null;
 type ComposerMode = "public" | "dm";
@@ -220,6 +221,7 @@ function ConnectionPanel({ state, onPatch, onProvider, onConnect, onProbe }: Con
 
 function Db8ReleaseApp() {
   const [theme, setTheme] = React.useState<ThemeMode>("dark");
+  const [tuiSignalMode, setTuiSignalMode] = React.useState<TuiSignalMode>("on");
   const [activeServer, setActiveServer] = React.useState<ServerId>("hum");
   const [activeSection, setActiveSection] = React.useState<SectionId>("agent_console");
   const [entryMode, setEntryMode] = React.useState<EntryMode>(null);
@@ -544,6 +546,13 @@ function Db8ReleaseApp() {
                   </Button>
                 ),
               )}
+              <Button
+                variant={tuiSignalMode === "on" ? "default" : "outline"}
+                size="sm"
+                onClick={() => setTuiSignalMode((current) => (current === "on" ? "off" : "on"))}
+              >
+                signal {tuiSignalMode}
+              </Button>
             </div>
 
             {activeSection === "connections" ? (
@@ -590,7 +599,10 @@ function Db8ReleaseApp() {
                     </label>
                   ))}
                 </div>
-                <div className="min-h-[10rem] flex-1 overflow-y-auto rounded-md border border-border/70 bg-background/70 p-3">
+                <div
+                  className="db8-signal-pane min-h-[10rem] flex-1 overflow-y-auto rounded-md border border-border/70 bg-background/70 p-3"
+                  data-tui-signal={tuiSignalMode}
+                >
                   {supervisionMessages.length ? (
                     <div className="space-y-2">
                       {supervisionMessages.map((entry) => (
@@ -617,7 +629,10 @@ function Db8ReleaseApp() {
             ) : null}
 
             {activeSection === "group_view" ? (
-              <div className="min-h-0 flex-1 overflow-y-auto rounded-md border border-border/70 bg-background/70 p-3">
+              <div
+                className="db8-signal-pane min-h-0 flex-1 overflow-y-auto rounded-md border border-border/70 bg-background/70 p-3"
+                data-tui-signal={tuiSignalMode}
+              >
                 {publicMessages.length ? (
                   <div className="space-y-2">
                     {publicMessages.map((entry) => (
@@ -642,7 +657,10 @@ function Db8ReleaseApp() {
 
             {activeSection === "agent_console" ? (
               <div className="flex min-h-0 flex-1 flex-col gap-3 overflow-hidden">
-                <div className="min-h-[10rem] flex-1 overflow-y-auto rounded-md border border-border/70 bg-background/70 p-3">
+                <div
+                  className="db8-signal-pane min-h-[10rem] flex-1 overflow-y-auto rounded-md border border-border/70 bg-background/70 p-3"
+                  data-tui-signal={tuiSignalMode}
+                >
                   {visibleMessages.length ? (
                     <div className="space-y-2">
                       {visibleMessages.map((entry) => (
