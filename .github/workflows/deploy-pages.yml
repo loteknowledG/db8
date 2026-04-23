@@ -25,6 +25,13 @@ jobs:
         uses: voidzero-dev/setup-vp@v1
         with:
           cache: true
+          run-install: false
+
+      - name: Checkout realmorphism sibling dependency
+        run: git clone --depth 1 https://github.com/loteknowledG/realmorphism ../realmorphism
+
+      - name: Install dependencies
+        run: vp install
 
       - name: Build static site
         env:
